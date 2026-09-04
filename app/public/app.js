@@ -117,6 +117,16 @@ async function loadParts() {
   renderParts()
 }
 
+function deleteFailureMessage(body) {
+  const code = body?.code
+  if (code === "PART_IN_USE") {
+    const jobs = body.usedBy?.length ?? 0
+    return `This part is used by ${jobs} open job${jobs === 1 ? "" : "s"} and cannot be deleted`
+  }
+  if (code === "FORBIDDEN") return "Your role cannot delete parts"
+  return "Could not delete part"
+}
+
 async function deletePart(id) {
   const { ok, body } = await api(`/api/parts/${id}`, { method: "DELETE" })
   if (ok) {
@@ -124,7 +134,7 @@ async function deletePart(id) {
     await loadParts()
     return
   }
-  toast("Could not delete part", "error")
+  toast(deleteFailureMessage(body), "error")
 }
 
 async function createPart() {
