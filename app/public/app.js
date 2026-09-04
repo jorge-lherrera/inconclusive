@@ -33,6 +33,20 @@ function stageLabel(stageId) {
   return stage ? stage.label : stageId
 }
 
+/**
+ * Only a label the cell actually cuts off gets a tooltip. A tooltip on every label is
+ * noise that hides the one that matters.
+ */
+function applyLabelTooltips() {
+  for (const node of document.querySelectorAll("td.label span.truncated")) {
+    if (node.scrollWidth > node.clientWidth) {
+      node.setAttribute("title", node.textContent)
+    } else {
+      node.removeAttribute("title")
+    }
+  }
+}
+
 function renderParts() {
   const body = el("parts-body")
   body.replaceChildren()
@@ -81,6 +95,8 @@ function renderParts() {
     row.append(code, label, stage, stock, actions)
     body.append(row)
   }
+
+  applyLabelTooltips()
 }
 
 async function loadStages() {
