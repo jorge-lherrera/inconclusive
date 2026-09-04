@@ -1,0 +1,84 @@
+:root {
+  --ink: #16181d;
+  --muted: #6b7280;
+  --line: #e4e6eb;
+  --bg: #f7f8fa;
+  --accent: #2f5bd7;
+  --danger: #b42318;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--bg);
+  font-size: 14px;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 24px;
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+}
+
+h1 { font-size: 15px; margin: 0; letter-spacing: -0.01em; }
+
+main { padding: 24px; max-width: 1080px; }
+
+.hidden { display: none !important; }
+
+.card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 20px;
+}
+
+label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+
+input, select, button {
+  font: inherit;
+  border-radius: 7px;
+  border: 1px solid var(--line);
+  padding: 8px 10px;
+  background: #fff;
+  color: inherit;
+}
+
+button { cursor: pointer; }
+button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+button.danger { color: var(--danger); }
+
+form.login { display: grid; gap: 12px; max-width: 320px; }
+
+.controls { display: flex; gap: 16px; align-items: flex-end; margin-bottom: 18px; flex-wrap: wrap; }
+.control { min-width: 260px; max-width: 260px; }
+.control select { width: 100%; }
+
+table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+th { font-size: 12px; color: var(--muted); font-weight: 600; }
+tbody tr:last-child td { border-bottom: none; }
+
+table { table-layout: fixed; }
+th:nth-child(2), td.label { width: 300px; }
+.truncated { display: block; max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+#toast {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  max-width: 420px;
+  padding: 12px 16px;
+  border-radius: 9px;
+  background: #22252c;
+  color: #fff;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 18%);
+}
+#toast.error { background: var(--danger); }

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bike Shop Parts</title>
+    <link rel="stylesheet" href="/app.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Bike Shop Parts</h1>
+      <div id="session" class="hidden">
+        <span id="session-name"></span>
+        <button id="logout" type="button">Sign out</button>
+      </div>
+    </header>
+
+    <main>
+      <section id="login-view" class="card">
+        <form class="login" id="login-form">
+          <div>
+            <label for="login-email">Email</label>
+            <input id="login-email" name="email" type="email" autocomplete="username" />
+          </div>
+          <div>
+            <label for="login-password">Password</label>
+            <input id="login-password" name="password" type="password" autocomplete="current-password" />
+          </div>
+          <button class="primary" type="submit">Sign in</button>
+          <p id="login-error" class="hidden"></p>
+        </form>
+      </section>
+
+      <section id="app-view" class="hidden">
+        <div class="controls">
+          <div class="control">
+            <label for="stage-select">Stage</label>
+            <select id="stage-select"></select>
+          </div>
+          <div class="control">
+            <label for="part-select">Part</label>
+            <select id="part-select"></select>
+          </div>
+          <div class="control">
+            <label for="new-code">New part</label>
+            <input id="new-code" placeholder="code" />
+          </div>
+          <div class="control">
+            <input id="new-label" placeholder="label" />
+          </div>
+          <button id="create-part" type="button">Add part</button>
+        </div>
+
+        <table id="parts">
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Label</th>
+              <th>Stage</th>
+              <th>Stock</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="parts-body"></tbody>
+        </table>
+      </section>
+    </main>
+
+    <div id="toast" class="hidden" role="status"></div>
+    <script src="/app.js"></script>
+  </body>
+</html>
