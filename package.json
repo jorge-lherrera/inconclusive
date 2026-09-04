@@ -1,0 +1,26 @@
+{
+  "name": "inconclusive",
+  "version": "1.0.0",
+  "description": "Differential E2E verification. A fix is not verified until the spec fails without it.",
+  "license": "MIT",
+  "author": "Jorge Herrera",
+  "type": "module",
+  "engines": { "bun": ">=1.1.0" },
+  "scripts": {
+    "app": "bun app/server.ts",
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "ui": "playwright test --ui",
+    "auth": "playwright test --project=setup-admin --project=setup-viewer",
+    "report": "playwright show-report",
+    "ab": "bash tools/ab-verify.sh",
+    "verify": "bash tools/verify-all.sh",
+    "sweep": "bun tools/sweep.ts",
+    "preflight": "bun tools/preflight.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.0",
+    "typescript": "^5.6.0"
+  }
+}
