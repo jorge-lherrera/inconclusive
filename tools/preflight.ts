@@ -20,7 +20,11 @@ function isLocal(url: string): boolean {
 const tagged = fs
   .readdirSync(SPEC_DIR)
   .filter((name) => name.endsWith(".spec.ts"))
-  .filter((name) => fs.readFileSync(path.join(SPEC_DIR, name), "utf8").includes("@writes"))
+  /**
+   * The declaration, not the word. A spec that merely mentions the tag in a comment is
+   * not a spec that writes, and counting it teaches people to ignore this warning.
+   */
+  .filter((name) => /tag:[^\n]*@writes/.test(fs.readFileSync(path.join(SPEC_DIR, name), "utf8")))
 
 if (tagged.length === 0) {
   console.log(`preflight: no spec writes; ${APP_URL} is safe either way`)
@@ -33,7 +37,8 @@ if (isLocal(APP_URL)) {
 }
 
 console.error(
-  `preflight: ${tagged.join(", ")} carry @writes and E2E_BASE_URL is ${APP_URL}, which is not local.\n` +
+  `preflight: ${tagged.join(", ")} ${tagged.length === 1 ? "carries" : "carry"} @writes and ` +
+    `E2E_BASE_URL is ${APP_URL}, which is not local.\n` +
     `Point the suite at a disposable instance. The tag does not lift the block against a shared one.`
 )
 process.exit(1)
