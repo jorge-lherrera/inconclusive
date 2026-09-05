@@ -92,10 +92,22 @@ new_worktree() {
   NEW_WORKTREE="$dir"
 }
 
+# A stale server on the port is the quiet way to get a false VERIFIED: the arm you
+# meant to start never binds, the health check answers from whatever was already there,
+# and the verdict describes code nobody is running. Refuse instead of guessing.
+require_free_port() {
+  local port="$1" arm="$2"
+  if curl -s -o /dev/null -m 2 "http://localhost:$port"; then
+    die "something is already answering on :$port, so the $arm arm cannot be trusted. Stop it and retry."
+  fi
+}
+
 serve() {
   local dir="$1" port="$2" log="$3"
   ( cd "$dir" && exec env PORT="$port" bun app/server.ts >"$log" 2>&1 ) &
   SERVERS+=("$!")
+  sleep 0.3
+  kill -0 "$!" 2>/dev/null || { tail -20 "$log"; die "the server on :$port died on startup"; }
 }
 
 run_spec() {
@@ -118,10 +130,12 @@ else
 fi
 
 say "1/4  the fix arm: $FIX_LABEL on :$FIX_PORT"
+require_free_port "$FIX_PORT" "fix"
 serve "$FIX_DIR" "$FIX_PORT" "$ROOT/.fix-server.log"
 wait_up "http://localhost:$FIX_PORT" || { tail -20 "$ROOT/.fix-server.log"; die "the fix server did not start"; }
 
 say "2/4  the control arm: $BASE_SHA on :$CONTROL_PORT"
+require_free_port "$CONTROL_PORT" "control"
 new_worktree "$BASE_REF"
 CONTROL_DIR="$NEW_WORKTREE"
 serve "$CONTROL_DIR" "$CONTROL_PORT" "$ROOT/.control-server.log"
