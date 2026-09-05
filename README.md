@@ -6,9 +6,9 @@ prove your fix did anything.
 `inconclusive` runs the same spec against two live instances — your fix, and the commit
 before it — and refuses to say *verified* unless the spec **fails without the fix**.
 
-[![verification: differential](https://img.shields.io/badge/verification-differential-2f5bd7)](.github/workflows/ci.yml)
 [![license: MIT](https://img.shields.io/badge/license-MIT-black)](LICENSE)
 [![runtime: bun](https://img.shields.io/badge/runtime-bun-f9f1e1)](https://bun.sh)
+[![docs: usage](https://img.shields.io/badge/docs-usage-2f5bd7)](docs/USAGE.md)
 
 ---
 
@@ -65,6 +65,9 @@ And the plain suite, which starts the app for you:
 ```bash
 bun run test
 ```
+
+Full instructions, including how to point the harness at your own application, are in
+[docs/USAGE.md](docs/USAGE.md).
 
 ## The contract
 
