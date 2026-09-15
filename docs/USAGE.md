@@ -354,7 +354,7 @@ is unchanged.
 
 Once your own specs run: remove `app/`, `specs/*.spec.ts`, `tools/verify-all.sh`, and the
 `app` script from `package.json`. What remains is `harness/`, `auth/`, `tools/ab-verify.sh`,
-`tools/sweep.ts` and `tools/preflight.ts` — about 300 lines.
+`tools/sweep.ts` and `tools/preflight.ts` — about 800 lines.
 
 ## Configuration reference
 

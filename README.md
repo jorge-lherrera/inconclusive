@@ -12,6 +12,22 @@ before it — and refuses to say *verified* unless the spec **fails without the 
 
 ---
 
+## What this repository is
+
+An idea, and the smallest honest proof that it works.
+
+It is not a framework and there is nothing to install. The differential is **one bash
+script of 181 lines** — two `git worktree` checkouts, two ports, one Playwright spec run
+against both. The rest of the repository exists so you can watch it return all three of its
+verdicts in about a minute: a parts warehouse of ~660 lines to act as the subject, two
+defects planted in a tagged commit, and six specs, one of which is deliberately useless.
+
+So the thing to take away is the **discipline**, not the dependency. Read
+[`tools/ab-verify.sh`](tools/ab-verify.sh), disagree with the parts you want to, and
+reimplement it in whatever your stack already uses. That is the intended outcome, and it is
+why the whole tool is a shell script you can read in one sitting rather than a package you
+would have to trust.
+
 ## Three outcomes, not two
 
 The old discipline is to watch the test go red before you fix anything. That red is an
@@ -48,9 +64,9 @@ bunx playwright install chromium
 bun run verify
 ```
 
-No database, no docker, no backend to point at. The subject under test is a 400-line parts
-warehouse that ships in this repository, with two defects planted in a tagged commit, so
-the differential has something real to differentiate.
+No database, no docker, no backend to point at. The subject under test ships in this
+repository, with two defects planted in a tagged commit, so the differential has something
+real to differentiate.
 
 Each outcome on its own:
 
@@ -66,8 +82,8 @@ And the plain suite, which starts the app for you:
 bun run test
 ```
 
-Full instructions, including how to point the harness at your own application, are in
-[docs/USAGE.md](docs/USAGE.md).
+[docs/USAGE.md](docs/USAGE.md) has the full commands, how to write a spec against the
+fixtures, and what it takes to aim the same script at an application of your own.
 
 ## The contract
 
@@ -137,8 +153,8 @@ different hat. `bun run sweep` replays whatever a crashed run left behind.
 ## What is in here
 
 ```
-app/          the subject under test: 24 parts, 3 work orders, ~400 LOC, no build step
-harness/      the tool: write guard, response capture, ledger, session
+app/          the subject under test: 24 parts, 3 work orders, ~660 LOC, no build step
+harness/      the fixtures: write guard, response capture, ledger, session
 specs/        six specs, including the one that is deliberately INCONCLUSIVE
 tools/        ab-verify.sh (the differential), verify-all.sh, sweep.ts, preflight.ts
 auth/         real UI login, stored per origin
@@ -177,6 +193,9 @@ time to render time.
 - It does not find bugs. It tells you whether the spec you already wrote is evidence.
 - It does not make a flaky spec trustworthy. It reports the flake as `INCONCLUSIVE` and
   stops, which is the most it can honestly do.
+- It does not scale to a suite. One differential stands two servers up and runs the spec
+  four times; that is a gate for the one spec that closes a bug, not something to point at
+  two hundred of them.
 - The guard sees what the **page** requests. A direct call from a spec through
   `APIRequestContext` does not pass through it, which is why `apiGet` is GET-only and why
   `tools/preflight.ts` exists.
